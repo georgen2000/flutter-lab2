@@ -21,7 +21,7 @@ class MyDrawer extends StatelessWidget {
                         flex: 2,
                         child: RoundImage(
                           href:
-                          'http://zoosalon.org.ua/wp-content/uploads/2018/04/smile-300x300.png',
+                              'http://zoosalon.org.ua/wp-content/uploads/2018/04/smile-300x300.png',
                           size: 80.0,
                         ),
                       ),
@@ -31,7 +31,10 @@ class MyDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Євген'),
+                              Consumer<MainModel>(
+                                  builder: (context, model, child) {
+                                return Text(model.userName);
+                              }),
                               Text('Переглянути профіль')
                             ],
                           ))
@@ -53,10 +56,7 @@ class MyDrawer extends StatelessWidget {
                 leading: Icon(Icons.home),
                 title: Text('Головна'),
                 onTap: () {
-                  Provider.of<MainModel>(context, listen: false).isMainPage = true;
-                  Provider.of<MainModel>(context, listen: false).page = MainPage();
-                  Provider.of<MainModel>(context, listen: false).title = "";
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/');
                 },
               ),
               ListTile(
@@ -66,21 +66,22 @@ class MyDrawer extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Налаштування'),
-                onTap: () {
-                  Provider.of<MainModel>(context, listen: false).isMainPage = false;
-                  Provider.of<MainModel>(context, listen: false).page = Settings();
-                  Provider.of<MainModel>(context, listen: false).title = "Налаштування";
-                  Navigator.pop(context);
+              Consumer<MainModel>(
+                builder: (context, model, child) {
+                  return ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text('Налаштування'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/settings',
+                            arguments: model.userName);
+                      });
                 },
               ),
               ListTile(
                 leading: Icon(Icons.auto_stories),
                 title: Text('Технічна підтримка'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/http');
                 },
               ),
             ],

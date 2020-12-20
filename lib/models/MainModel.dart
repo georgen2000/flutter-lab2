@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainModel with ChangeNotifier {
-  Widget _page;
-  bool _isMainPage;
-  String _title;
+  SharedPreferences _pref;
+  String _userName;
 
-  Widget get page => _page;
+  MainModel() {
+    _loadFromPrefs();
+  }
 
-  set page(Widget value) {
-    _page = value;
+  String get userName => _userName;
+
+  set userName(String value) {
+    _userName = value;
+    _pref.setString('userName', null);
     notifyListeners();
   }
 
-  String get title => _title ?? "";
-
-  set title(String value) {
-    _title = value;
-    notifyListeners();
+  _initPrefs() async {
+    if (_pref == null) _pref = await SharedPreferences.getInstance();
   }
 
-  bool get isMainPage => _isMainPage ?? true;
-
-  set isMainPage(bool value) {
-    _isMainPage = value;
+  _loadFromPrefs() async {
+    await _initPrefs();
+    _userName = _pref.getString('userName') ?? 'Євген';
+    print(_userName);
     notifyListeners();
   }
 }

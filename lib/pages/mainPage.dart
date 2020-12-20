@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'defaultPage.dart';
+
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [MainHeader(), MainBody()],
+    return DefaultPage(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [MainHeader(), MainBody()],
+      ),
     );
   }
 }
